@@ -1,0 +1,44 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv('C:\\Users\\Gayathri K\\PycharmProjects\\sai\\venv\\Salary_Data.csv')
+#number of records
+l = len(df.index)
+#plot func takes list as args so 2 coulumns which is our interest is converted to list
+x = list(df[df.columns[0]])
+y = list(df[df.columns[1]])
+#graphical view of data
+plt.plot(x,y, linestyle="none", marker="o")
+plt.xlabel("Year of experience")
+plt.ylabel("Salary")
+#mean of x and y
+x_mean=sum(x) / l
+y_mean = sum(y) /l
+#mean lines
+plt.axvline(x_mean,linestyle = "-", color="blue")
+plt.axhline(y_mean,linestyle="-",color="g")
+#slop formula m=(x-x_mean)*(y-y_mean)/(y-y_mean)2
+nm = 0
+dem = 0
+for i,j in zip(x,y):
+   nm +=(i-x_mean)*(j-y_mean)
+   dem += (i-x_mean)*(i-x_mean)
+
+slop=nm/dem
+#y-intercept(y value whn x is 0)
+b = y_mean - slop * x_mean
+#estimated y value for each x
+yp=[]
+for m in x:
+  temp= slop*m + b
+  yp.append(temp)
+#regression line
+plt.plot(x,yp,linestyle="solid",color="black")
+plt.show()
+#R square value
+numerator=0
+denomenator=0
+for i,j in zip(yp,y):
+  numerator += (i-y_mean)*(i-y_mean)
+  denomenator += (j-y_mean)*(j-y_mean)
+rsquare= numerator / denomenator
+print(rsquare)
